@@ -7,28 +7,7 @@ RUN rm -f /etc/apt/sources.list.d/* \
  && apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys E184859262B4981F \
  && echo "deb http://repos.fusiondirectory.org/debian-jessie jessie main" \
     > /etc/apt/sources.list.d/fusiondirectory-jessie.list \
- && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    argonaut-server \
-    fusiondirectory=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-argonaut=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-autofs=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-certificates=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-gpg=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-ldapdump=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-ldapmanager=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-mail=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-postfix=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-ssh=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-sudo=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-systems=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-weblink=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-webservice=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-smarty3-acl-render=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-webservice-shell=${FUSIONDIRECTORY_VERSION} \
-    php-mdb2 \
-    php5-fpm \
-    
+ && apt-get update 
 
 RUN export TARGET=/etc/php5/fpm/php.ini \
  && sed -i -e "s:^;\(opcache.enable\) *=.*$:\1=1:" ${TARGET} \
