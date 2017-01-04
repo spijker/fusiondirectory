@@ -28,7 +28,7 @@ RUN rm -f /etc/apt/sources.list.d/* \
     fusiondirectory-webservice-shell=${FUSIONDIRECTORY_VERSION} \
     php-mdb2 \
     php5-fpm \
- && rm -rf /var/lib/apt/lists/*
+    
 
 RUN export TARGET=/etc/php5/fpm/php.ini \
  && sed -i -e "s:^;\(opcache.enable\) *=.*$:\1=1:" ${TARGET} \
