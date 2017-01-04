@@ -17,7 +17,7 @@ services:
 
   fusiondirectory:
     restart: always
-    image: aledemelo/fusiondirectory:latest
+    image: aledemelo/docker-fusiondirectory:latest
     ports:
       - "10080:80"
     depends_on:
