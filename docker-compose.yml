@@ -17,7 +17,7 @@ services:
 
   fusiondirectory:
     restart: always
-    image: hrektts/fusiondirectory:latest
+    image: alessandrams/fusiondirectory:latest
     ports:
       - "10080:80"
     depends_on:
