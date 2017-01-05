@@ -29,6 +29,7 @@ RUN rm -f /etc/apt/sources.list.d/* \
     php-mdb2 \
     php5-fpm \
  && rm -rf /var/lib/apt/lists/*
+ && apt-get update \
 
 RUN export TARGET=/etc/php5/fpm/php.ini \
  && sed -i -e "s:^;\(opcache.enable\) *=.*$:\1=1:" ${TARGET} \
