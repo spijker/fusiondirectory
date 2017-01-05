@@ -5,6 +5,8 @@ ENV FUSIONDIRECTORY_VERSION=1.0.16-1
 
 RUN rm -f /etc/apt/sources.list.d/* \
  && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys E184859262B4981F \
+ && echo "deb http://repos.fusiondirectory.org/debian-jessie jessie main" \
+    > /etc/apt/sources.list.d/fusiondirectory-jessie.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     argonaut-server \
@@ -26,7 +28,7 @@ RUN rm -f /etc/apt/sources.list.d/* \
     fusiondirectory-webservice-shell=${FUSIONDIRECTORY_VERSION} \
     php-mdb2 \
     php5-fpm \
- && rm -rf /var/lib/apt/lists/*
+ 
 
 RUN export TARGET=/etc/php5/fpm/php.ini \
  && sed -i -e "s:^;\(opcache.enable\) *=.*$:\1=1:" ${TARGET} \
