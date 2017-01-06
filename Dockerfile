@@ -3,11 +3,16 @@ MAINTAINER mps299792458@gmail.com
 
 ENV FUSIONDIRECTORY_VERSION=1.0.9.3-1
 
-RUN rm -f /etc/apt/sources.list.d/* \
- && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys E184859262B4981F \
- && echo 'deb http://repos.fusiondirectory.org/debian-jessie jessie main' > /etc/apt/sources.list.d/fusiondirectory-jessie.list \
- && apt-get update \
- && apt-get install -y \
+RUN export DEBIAN_FRONTEND=noninteractive && \ 
+    export LC_ALL=es_ES.UTF-8 && \ 
+    export LANG=C && \ 
+    export LANGUAGE=C && \ 
+    apt-get update && \ 
+    apt-get install -y --no-install-recommends gnupg && \ 
+    gpg --keyserver keys.gnupg.net --recv-keys E184859262B4981F && \ 
+    gpg -a --export E184859262B4981F | apt-key add - && \ 
+    echo 'deb http://repos.fusiondirectory.org/debian-jessie jessie main' > /etc/apt/sources.list.d/fusiondirectory-jessie.list && \ apt-get update && \ 
+    && apt-get install -y \
     argonaut-server \
     fusiondirectory=${FUSIONDIRECTORY_VERSION} \
     fusiondirectory-plugin-argonaut=${FUSIONDIRECTORY_VERSION} \
