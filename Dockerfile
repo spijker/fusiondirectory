@@ -7,7 +7,7 @@ RUN rm -f /etc/apt/sources.list.d/* \
  && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys E184859262B4981F \
  && echo 'deb http://repos.fusiondirectory.org/debian-jessie jessie main' > /etc/apt/sources.list.d/fusiondirectory-jessie.list \
  && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ && apt-get install -y \
     argonaut-server \
     fusiondirectory=${FUSIONDIRECTORY_VERSION} \
     fusiondirectory-plugin-argonaut=${FUSIONDIRECTORY_VERSION} \
