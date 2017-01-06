@@ -33,8 +33,10 @@ for elem in "${domain_elems[@]}" ; do
 done
 
 if [ -z ${LDAP_ADMIN_DN} ] ; then
-    BASE_DN="dc=$(echo ${LDAP_DOMAIN} | sed 's/^\.//; s/\.$//; s/\./,dc=/g')"
-    : ${LDAP_ADMIN:="admin"}
+    ${BASE_DN="dc="example", dc="org""}
+    ${LDAP_ADMIN:="admin"}
+   # BASE_DN="dc=$(echo ${LDAP_DOMAIN} | sed 's/^\.//; s/\.$//; s/\./,dc=/g')"
+    #: ${LDAP_ADMIN:="admin"}
     LDAP_ADMIN_DN="cn=${LDAP_ADMIN},${BASE_DN}"
 
     printf "\n\nLDAP_ADMIN_DN is not defined and set to '${LDAP_ADMIN_DN}'\n"
