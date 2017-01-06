@@ -11,7 +11,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends gnupg && \ 
     gpg --keyserver keys.gnupg.net --recv-keys E184859262B4981F && \ 
     gpg -a --export E184859262B4981F | apt-key add - && \ 
-    echo 'deb http://repos.fusiondirectory.org/debian-jessie jessie main' > /etc/apt/sources.list.d/fusiondirectory-jessie.list && \ apt-get update && \ 
+    echo 'deb http://repos.fusiondirectory.org/debian-jessie jessie main' > /etc/apt/sources.list.d/fusiondirectory-jessie.list \ 
+    && apt-get update \ 
     && apt-get install -y \
     argonaut-server \
     fusiondirectory=${FUSIONDIRECTORY_VERSION} \
