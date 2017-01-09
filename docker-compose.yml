@@ -8,7 +8,7 @@ services:
       - LDAP_DOMAIN=example.com
       - LDAP_ADMIN_PASSWORD=adminpwd
       - LDAP_CONFIG_PASSWORD=configpwd
-      - LDAP_ADMIN_DN="cn=admin,dc=example,dc=org" 
+      - LDAP_ADMIN_DN="cn=admin,dc=example,dc=com" 
 
       - LDAP_READONLY_USER=true
       - LDAP_READONLY_USER_USERNAME=reader
