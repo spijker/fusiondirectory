@@ -24,6 +24,6 @@ services:
     depends_on:
       - openldap
     environment:
-      - LDAP_DOMAIN=example.org
+      - LDAP_DOMAIN=example.com
       - LDAP_HOST=openldap
       - LDAP_ADMIN_PASSWORD=adminpwd 
