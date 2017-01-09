@@ -5,7 +5,7 @@ services:
     image: hrektts/fusiondirectory-openldap:latest
     environment:
       - LDAP_ORGANISATION="Example Organization"
-      - LDAP_DOMAIN=example.org
+      - LDAP_DOMAIN=example.com
       - LDAP_ADMIN_PASSWORD=adminpwd
       - LDAP_CONFIG_PASSWORD=configpwd
       - LDAP_ADMIN_DN="cn=admin,dc=example,dc=org" 
