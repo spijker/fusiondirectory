@@ -50,6 +50,8 @@ if ${LDAP_TLS}; then
     LDAP_COMM_PORT=636
 fi
 
+printf "\n\nPassei aqui\n"
+
 cat <<EOF > /etc/fusiondirectory/fusiondirectory.conf
 <?xml version="1.0"?>
 <conf>
@@ -69,12 +71,9 @@ cat <<EOF > /etc/fusiondirectory/fusiondirectory.conf
     <!-- Location definition -->
     <location name="default"
     >
-       <referral URI="ldap://127.0.0.1:389/dc=example,dc=com"
-                        adminDn="cn=admin,dc=example,dc=com"
-                        adminPassword="examplePassword" />
-       # <referral URI="${LDAP_SCHEME}://${LDAP_HOST}:${LDAP_COMM_PORT}/${suffix}"
-        #                adminDn="${LDAP_ADMIN_DN}"
-         #               adminPassword="${LDAP_ADMIN_PASSWORD}" />
+        <referral URI="${LDAP_SCHEME}://${LDAP_HOST}:${LDAP_COMM_PORT}/${suffix}"
+                       adminDn="${LDAP_ADMIN_DN}"
+                       adminPassword="${LDAP_ADMIN_PASSWORD}" />
     </location>
   </main>
 </conf>
