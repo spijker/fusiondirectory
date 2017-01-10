@@ -5,10 +5,9 @@ services:
     image: hrektts/fusiondirectory-openldap:latest
     environment:
       - LDAP_ORGANISATION="Example Organization"
-      - LDAP_DOMAIN=example.com
+      - LDAP_DOMAIN=example.org
       - LDAP_ADMIN_PASSWORD=adminpwd
-      - LDAP_CONFIG_PASSWORD=configpwd
-      - LDAP_ADMIN_DN="cn=admin,dc=example,dc=com" 
+      - LDAP_CONFIG_PASSWORD=configpwd 
 
       - LDAP_READONLY_USER=true
       - LDAP_READONLY_USER_USERNAME=reader
@@ -24,6 +23,6 @@ services:
     depends_on:
       - openldap
     environment:
-      - LDAP_DOMAIN=example.com
+      - LDAP_DOMAIN=example.org
       - LDAP_HOST=openldap
       - LDAP_ADMIN_PASSWORD=adminpwd 
