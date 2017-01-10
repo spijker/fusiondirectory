@@ -40,6 +40,8 @@ if [ -z ${LDAP_ADMIN_DN} ] ; then
     printf "\n\nLDAP_ADMIN_DN is not defined and set to '${LDAP_ADMIN_DN}'\n"
 fi
 
+echo The value of variable
+
 LDAP_TLS=${LDAP_TLS:-"false"}
 LDAP_TLS=${LDAP_ENV_LDAP_TLS:-${LDAP_TLS}}
 
@@ -49,6 +51,8 @@ if ${LDAP_TLS}; then
     LDAP_SCHEME="ldaps"
     LDAP_COMM_PORT=636
 fi
+
+echo The value of variable
 
 printf "\n\nPassei aqui\n"
 
@@ -85,5 +89,7 @@ chown root:www-data /etc/fusiondirectory/fusiondirectory.conf
 yes Yes | fusiondirectory-setup --check-config
 
 exec "$@"
+
+echo The value of variable
 
 exit 0
