@@ -2,7 +2,7 @@ version: '2'
 services:
   openldap:
     restart: always
-    image: hrektts/fusiondirectory-openldap:latest
+    image: aledemelo/docker-fdldap
     environment:
       - LDAP_ORGANISATION="Example Organization"
       - LDAP_DOMAIN=example.org
