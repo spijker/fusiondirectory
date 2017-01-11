@@ -83,5 +83,3 @@ chown root:www-data /etc/fusiondirectory/fusiondirectory.conf
 yes Yes | fusiondirectory-setup --check-config
 
 exec "$@"
-
-exit 0
