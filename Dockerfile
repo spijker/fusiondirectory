@@ -1,16 +1,19 @@
-FROM nginx:1.11-alpine
+FROM nginx:1.11
 MAINTAINER Gabriel Trabanco Llano <gtrabanco@fwok.org>
 
-ENV FUSIONDIRECTORY_VERSION=1.0.17-1
+ENV FUSIONDIRECTORY_VERSION=1.0.19-1
 
 RUN rm -f /etc/apt/sources.list.d/* \
  && apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys E184859262B4981F \
  && echo "deb http://repos.fusiondirectory.org/debian-jessie jessie main" \
     > /etc/apt/sources.list.d/fusiondirectory-jessie.list \
  && apt-get update \
+ && apt-cache showpkg fusiondirectory \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     argonaut-server \
     fusiondirectory=${FUSIONDIRECTORY_VERSION} \
+    fusiondirectory-plugin-samba=${FUSIONDIRECTORY_VERSION} \
+    fusiondirectory-plugin-dns=${FUSIONDIRECTORY_VERSION} \
     fusiondirectory-plugin-argonaut=${FUSIONDIRECTORY_VERSION} \
     fusiondirectory-plugin-autofs=${FUSIONDIRECTORY_VERSION} \
     fusiondirectory-plugin-certificates=${FUSIONDIRECTORY_VERSION} \
@@ -26,11 +29,15 @@ RUN rm -f /etc/apt/sources.list.d/* \
     fusiondirectory-plugin-webservice=${FUSIONDIRECTORY_VERSION} \
     fusiondirectory-smarty3-acl-render=${FUSIONDIRECTORY_VERSION} \
     fusiondirectory-webservice-shell=${FUSIONDIRECTORY_VERSION} \
+    fusiondirectory-plugin-freeradius=${FUSIONDIRECTORY_VERSION} \
+    fusiondirectory-plugin-gpg=${FUSIONDIRECTORY_VERSION} \
+    fusiondirectory-plugin-quota=${FUSIONDIRECTORY_VERSION} \
+    fusiondirectory-plugin-pureftpd=${FUSIONDIRECTORY_VERSION} \
     php-mdb2 \
     php5-fpm \
  && rm -rf /var/lib/apt/lists/*
 
- 
+RUN fusiondirectory-insert-schema -i /etc/ldap/schema/fusiondirectory/*
 
 RUN export TARGET=/etc/php5/fpm/php.ini \
  && sed -i -e "s:^;\(opcache.enable\) *=.*$:\1=1:" ${TARGET} \
