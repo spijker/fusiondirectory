@@ -1,5 +1,5 @@
-FROM hrektts/nginx:latest
-MAINTAINER mps299792458@gmail.com
+FROM nginx:1.11-alpine
+MAINTAINER Gabriel Trabanco Llano <gtrabanco@fwok.org>
 
 ENV FUSIONDIRECTORY_VERSION=1.0.17-1
 
