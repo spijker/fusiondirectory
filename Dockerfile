@@ -1,41 +1,31 @@
-FROM nginx:1.11
-MAINTAINER Gabriel Trabanco Llano <gtrabanco@fwok.org>
+FROM nginx:latest
 
-ENV FUSIONDIRECTORY_VERSION=1.0.19-1
+ENV FD_VERSION 1.0.19-1
+ENV FD_PLUGINS argonaut,user-reminder,sympa,supann,squid,spamassassin,sogo,repository,puppet,ppolicy,personal,\
+opsi,newsletter,netgroups,nagios,mixedgroups,kolab2,ipmi,fusioninventory,fai,ejbca,dsa,dovecot,dhcp,\
+developers,debconf,cyrus,community,audit,applications,alias,subcontracting,samba,dns,autofs,certificates,\
+gpg,ldapdump,ldapmanager,mail,postfix,ssh,sudo,systems,weblink,webservice,freeradius,quota,pureftpd
+ENV FD_WEBSERVICE_SHELL true
+ENV FD_THEME_OXYGEN true
 
-RUN rm -f /etc/apt/sources.list.d/* \
- && apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys E184859262B4981F \
- && echo "deb http://repos.fusiondirectory.org/debian-jessie jessie main" \
-    > /etc/apt/sources.list.d/fusiondirectory-jessie.list \
- && apt-get update \
- && apt-cache showpkg fusiondirectory \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    argonaut-server \
-    fusiondirectory=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-samba=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-dns=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-argonaut=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-autofs=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-certificates=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-gpg=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-ldapdump=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-ldapmanager=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-mail=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-postfix=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-ssh=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-sudo=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-systems=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-weblink=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-webservice=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-smarty3-acl-render=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-webservice-shell=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-freeradius=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-gpg=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-quota=${FUSIONDIRECTORY_VERSION} \
-    fusiondirectory-plugin-pureftpd=${FUSIONDIRECTORY_VERSION} \
-    php-mdb2 \
-    php5-fpm \
- && rm -rf /var/lib/apt/lists/*
+RUN rm -f /etc/apt/sources.list.d/*
+RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys E184859262B4981F
+RUN echo "deb http://repos.fusiondirectory.org/debian-jessie jessie main" > /etc/apt/sources.list.d/fusiondirectory-jessie.list
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y fusiondirectory=${FD_VERSION} php5-fpm php-mdb2
+
+RUN tmp=""; for i in $(echo $FD_PLUGINS | sed "s/,/ /g"); do tmp="$tmp fusiondirectory-plugin-$i=${FD_VERSION}"; done; \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y $tmp;
+
+RUN if [ "$FD_WEBSERVICE_SHELL" = true ]; then \
+		DEBIAN_FRONTEND=noninteractive apt-get install -y fusiondirectory-webservice-shell=${FD_VERSION}; \
+	fi
+
+RUN if [ "$FD_THEME_OXYGEN" = true ]; then \
+		DEBIAN_FRONTEND=noninteractive apt-get install -y fusiondirectory-theme-oxygen=${FD_VERSION}; \
+	fi
+
+RUN rm -rf /var/lib/apt/lists/*
 
 RUN export TARGET=/etc/php5/fpm/php.ini \
  && sed -i -e "s:^;\(opcache.enable\) *=.*$:\1=1:" ${TARGET} \
@@ -56,7 +46,8 @@ COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 COPY cmd.sh /sbin/cmd.sh
 RUN chmod 755 /sbin/cmd.sh
-COPY default /etc/nginx/sites-available/
+COPY fushiondirectory.nginx /etc/nginx/sites-available/fushiondirectory
+RUN cd /etc/nginx/sites-enabled/ && rm default && ln -s ../sites-available/fushiondirectory 
 
 EXPOSE 80 443
 ENTRYPOINT ["/sbin/entrypoint.sh"]

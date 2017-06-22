@@ -1,28 +1,16 @@
 version: '2'
 services:
-  openldap:
-    restart: always
-    image: aledemelo/docker-fdldap
-    environment:
-      - LDAP_ORGANISATION="Example Organization"
-      - LDAP_DOMAIN=example.org
-      - LDAP_ADMIN_PASSWORD=adminpwd
-      - LDAP_CONFIG_PASSWORD=configpwd 
-
-      - LDAP_READONLY_USER=true
-      - LDAP_READONLY_USER_USERNAME=reader
-      - LDAP_READONLY_USER_PASSWORD=readerpwd
-
-      - FD_ADMIN_PASSWORD=fdadminpwd
-
   fusiondirectory:
     restart: always
-    image: aledemelo/docker-fusiondirectory:latest
-    ports:
-      - "10080:80"
+    image: jrohde/fusiondirectory:latest
     depends_on:
       - openldap
     environment:
-      - LDAP_DOMAIN=example.org
-      - LDAP_HOST=openldap
-      - LDAP_ADMIN_PASSWORD=adminpwd 
+	- LDAP_DOMAIN=example.org
+	- LDAP_HOST=openldap
+	- LDAP_ROOTPW=adminpwd
+	- LDAP_PORT=389
+	- FD_PLUGINS=samba,dns,argonaut,autofs,certificates,gpg,ldapdump,ldapmanager,mail,postfix,ssh,sudo,systems,weblink,webservice,freeradius,quota,pureftpd
+	- FD_WEBSERVICE_SHELL=true
+	- FD_SMARTY3_ACL_RENDER=true
+   
