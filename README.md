@@ -4,6 +4,14 @@ FusionDirectory Docker Container
 A docker image for [Fusiondirectory](http://fusiondirectory.org).
 It installs and configures nginx + php5-fpm 
 
+
+ToDO
+---------
+fix the 777
+php7 to external docker
+fix ldap
+change setup for auto setup
+
 How to use
 ----------
 
